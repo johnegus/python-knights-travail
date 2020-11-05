@@ -13,9 +13,8 @@ class Node:
         return self._children
 
     def add_child(self, node):
-        if not self._children[node]:
+        if not node in self._children:
             self._children.append(node)
-            self._parent = self._children
 
 
     def remove_child(self, node):
@@ -30,6 +29,6 @@ class Node:
 
 
     @parent.setter
-    def parent(self, value):
-        self._parent = value
-        add_child(self)
+    def parent(self, node):
+        self._parent = node
+        node.add_child(self)
