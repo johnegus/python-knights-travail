@@ -31,9 +31,12 @@ class Node:
 
     @parent.setter
     def parent(self, node):
+        if self._parent is node:
+            return
         # if self._parent:
         # node = self._parent
         # node.remove_child(self)
         self._parent = node
         # node.add_child(self)
-        self._parent.add_child(self)
+        if node is not None:
+            node.add_child(self)
