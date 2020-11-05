@@ -11,28 +11,15 @@ class Node:
     @property
     def children(self):
         return self._children
-
-    def add_child(self, node):
-        if node not in self._children:
-            self._children.append(node)
-            node._parent = self
-        if self._parent is None:
-            self._parent = node
-
-    def remove_child(self, node):
-        if node in self._children:
-            self._children.remove(node)
-            # self._parent = None
-            node._parent = None
-
+    
     @property
     def parent(self):
         return self._parent
 
     @parent.setter
     def parent(self, node):
-        # if self._parent is node:
-        #     return
+        if self._parent is node:
+            return
         if self._parent is not None:
             self._parent.remove_child(self)
         # if self._parent:
@@ -42,6 +29,23 @@ class Node:
         # node.add_child(self)
         if node is not None:
             node.add_child(self)
+
+    def add_child(self, node):
+        if node in self._children:
+            return
+        if node not in self._children:
+            self._children.append(node)
+            node.parent = self
+        if self._parent is None:
+            self.parent = node
+
+    def remove_child(self, node):
+        if node in self._children:
+            self._children.remove(node)
+            # self._parent = None
+            node.parent = None
+
+    
 
 node1 = Node("root1")
 node2 = Node("root2")
