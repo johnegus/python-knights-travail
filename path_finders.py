@@ -25,17 +25,27 @@ class KnightPathFinder:
         self._considered_positions = self._considered_positions.union(newmoves)
         return newmoves
 
-    def build_move_tree(self, pos):
-        start_pos = self._root.value
-        possible_pos = self.new_move_positions(start_pos)
-        for position in possible_pos:
-            self._root.add_child(position)
+    def build_move_tree(self):
+        moves_tree = []
+        queue = [self._root]
+        
+        while queue:
+            node = queue.pop(0)
+            moves = self.new_move_positions(node.value)
+            node._considered_positions = moves
+            for move in moves:
+                new = Node(move)
+                node.add_child(new)
+                moves_tree.append(new)
+        return moves_tree
 
 # finder = KnightPathFinder((0, 0))
 # print(finder.get_valid_moves((5, 5)))
 # finder = KnightPathFinder((0, 0))
 # print(finder.new_move_positions((0, 0)))
-
+finder = KnightPathFinder((0, 0))
+finder.build_move_tree()
+print(finder._root.children)
 
 # def breadth_search(self, value):
 #     search = [self]
