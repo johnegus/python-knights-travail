@@ -41,16 +41,22 @@ class KnightPathFinder:
 
     def find_path(self, end_position):
         node = self._root.breadth_search(end_position)
-        self.trace_to_root(node)
+        path = [node.value for node in self.trace_to_root(node)]
+        return sorted(path)
 
     def trace_to_root(self, end_node):
         route = []
+        current = end_node
+        while current:
+            route.append(current)
+            if current.parent is not None:
+                current = current.parent
+            else:
+                current = None
 
-        while end_node.parent:
-            route.append(end_node.parent)
-            end_node = end_node.parent
+        return route
 
-        return route.reverse()
+
 
 
 # finder = KnightPathFinder((0, 0))
