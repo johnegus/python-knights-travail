@@ -25,32 +25,45 @@ class KnightPathFinder:
         self._considered_positions = self._considered_positions.union(newmoves)
         return newmoves
 
-    def build_move_tree(self):
-        moves_tree = []
-        queue = [self._root]
+    # def build_move_tree(self):
+    #     moves_tree = []
+    #     queue = [self._root]
 
-        while queue:
-            node = queue.pop(0)
+    #     while queue:
+    #         node = queue.pop(0)
+    #         moves = self.new_move_positions(node.value)
+    #         node._considered_positions = moves
+    #         for move in moves:
+    #             new = Node(move)
+    #             node.add_child(new)
+    #             moves_tree.append(new)
+    #     return moves_tree
+    def build_move_tree(self):
+        nodes = [self._root]
+        while nodes:
+            node = nodes.pop(0)
             moves = self.new_move_positions(node.value)
-            node._considered_positions = moves
-            for move in moves:
-                new = Node(move)
-                node.add_child(new)
-                moves_tree.append(new)
-        return moves_tree
+            children = [
+                Node(pos) for pos in moves
+            ]
+            for child in children:
+                node.add_child(child)
+            nodes.extend(children)
 
     def find_path(self, end_position):
         node = self._root.breadth_search(end_position)
-        self.trace_to_root(node)
+        return self.trace_to_root(node)
 
     def trace_to_root(self, end_node):
-        route = []
+        node = end_node
+        route = [end_node.value]
 
-        while end_node.parent:
-            route.append(end_node.parent)
-            end_node = end_node.parent
-
-        return route.reverse()
+        while node.parent:
+            # print('end_node.parent: ', end_node.parent)
+            node = node.parent
+            route.append(node.value)
+        # print('route: ', route)
+        return list(reversed(route))
 
 
 # finder = KnightPathFinder((0, 0))
