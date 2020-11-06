@@ -28,7 +28,7 @@ class KnightPathFinder:
     def build_move_tree(self):
         moves_tree = []
         queue = [self._root]
-        
+
         while queue:
             node = queue.pop(0)
             moves = self.new_move_positions(node.value)
@@ -39,21 +39,32 @@ class KnightPathFinder:
                 moves_tree.append(new)
         return moves_tree
 
+    def find_path(self, end_position):
+        node = self._root.breadth_search(end_position)
+        self.trace_to_root(node)
+
+    def trace_to_root(self, end_node):
+        route = []
+
+        while end_node.parent:
+            route.append(end_node.parent)
+            end_node = end_node.parent
+
+        return route.reverse()
+
+
 # finder = KnightPathFinder((0, 0))
 # print(finder.get_valid_moves((5, 5)))
 # finder = KnightPathFinder((0, 0))
 # print(finder.new_move_positions((0, 0)))
+# finder = KnightPathFinder((0, 0))
+# finder.build_move_tree()
+# print(finder._root.children)
+
 finder = KnightPathFinder((0, 0))
 finder.build_move_tree()
-print(finder._root.children)
-
-# def breadth_search(self, value):
-#     search = [self]
-
-#     while search:
-#         node = search.pop(0)
-#         if node._value == value:
-#             return node
-#         search.extend(node._children)
-
-#     return None
+print(finder.find_path((2, 1)))  # => [(0, 0), (2, 1)]
+print(finder.find_path((3, 3)))  # => [(0, 0), (2, 1), (3, 3)]
+print(finder.find_path((6, 2)))  # => [(0, 0), (1, 2), (2, 4), (4, 3), (6, 2)]
+# => [(0, 0), (1, 2), (2, 4), (4, 3), (5, 5), (7, 6)]
+print(finder.find_path((7, 6)))

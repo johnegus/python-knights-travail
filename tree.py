@@ -71,5 +71,5 @@ node3 = Node("root3")
 node3.parent = node1
 node3.parent = node2
 
-print(node1.children)
-print(node2.children)
+# print(node1.children)
+# print(node2.children)
