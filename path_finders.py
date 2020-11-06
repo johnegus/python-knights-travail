@@ -17,7 +17,11 @@ class KnightPathFinder:
                 moves.append((new_x, new_y))
         return moves 
     
-    # def new_move_positions(self, pos):
+    def new_move_positions(self, pos):
+        moves = set(self.get_valid_moves(pos))
+        newmoves = moves.difference(self._considered_positions)
+        self._considered_positions = self._considered_positions.union(newmoves)
+        return newmoves
 
-start = KnightPathFinder((0, 0))
-print(start.get_valid_moves(0,0))
+finder = KnightPathFinder((0, 0))
+print(finder.get_valid_moves((5,5)))
